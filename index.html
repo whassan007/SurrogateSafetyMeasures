@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSAM — Surrogate Safety Assessment Module</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-shield">⬡</div>
+    <div class="header-title">
+      <h1>SSAM — Surrogate Safety Assessment Module</h1>
+      <span class="header-sub">FHWA INTERSECTION SAFETY GUIDELINES &nbsp;|&nbsp; REAL-TIME VALIDATION ENGINE &nbsp;|&nbsp; AV SYSTEMS</span>
+    </div>
+  </header>
+
+  <div class="app-body">
+
+    <!-- ═══ LEFT PANEL ═══ -->
+    <aside class="panel-left">
+
+      <div class="panel-top-label">
+        <div class="panel-title">Scenario Configuration</div>
+        <div class="panel-subtitle">Kinematic boundary conditions</div>
+      </div>
+
+      <div class="panel-section">
+        <label class="field-label">Scenario Type</label>
+        <select id="scenario-type" class="select-input">
+          <option value="A">Scenario A: Conflict Point (Crossing)</option>
+          <option value="B">Scenario B: Rear-End (Following)</option>
+          <option value="C">Scenario C: Merge Conflict</option>
+        </select>
+      </div>
+
+      <div class="panel-section">
+        <div class="subsection-title">INITIAL CONDITIONS</div>
+
+        <div class="slider-group">
+          <div class="slider-label">
+            <span class="dot ego-dot"></span>
+            <span>Ego Agent Velocity (m/s)</span>
+          </div>
+          <div class="slider-row">
+            <input type="range" id="slider-v-ego" min="5" max="30" step="0.5" value="15">
+            <span id="val-v-ego" class="slider-value">15.0</span>
+          </div>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label">
+            <span class="dot target-dot"></span>
+            <span>Target Vehicle Velocity (m/s)</span>
+          </div>
+          <div class="slider-row">
+            <input type="range" id="slider-v-target" min="5" max="30" step="0.5" value="12">
+            <span id="val-v-target" class="slider-value">12.0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="subsection-title">EVASIVE PARAMETERS</div>
+        <div class="slider-group">
+          <div class="slider-label"><span>Target Hard Braking (m/s²)</span></div>
+          <div class="slider-row">
+            <input type="range" id="slider-brake" min="-12" max="-2" step="0.5" value="-6">
+            <span id="val-brake" class="slider-value">-6.0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="subsection-title">CONFLICT THRESHOLD</div>
+        <div class="slider-group">
+          <div class="slider-label"><span>TTC Conflict Threshold (s)</span></div>
+          <div class="slider-row">
+            <input type="range" id="slider-ttc" min="0.5" max="4" step="0.25" value="1.5">
+            <span id="val-ttc" class="slider-value">1.5</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section controls-section">
+        <button id="btn-play" class="btn-play">▶&nbsp; PLAY</button>
+        <button id="btn-stop" class="btn-stop">■&nbsp; STOP</button>
+      </div>
+
+      <div class="panel-section">
+        <div class="subsection-title">SCENARIO INFO</div>
+        <div class="scenario-tags">
+          <span class="tag">⚠ Conflict Point</span>
+          <span class="tag">⊕ Perpendicular</span>
+          <span class="tag">⊞ Intersection</span>
+        </div>
+        <p class="scenario-desc" id="scenario-desc">
+          Ego approaches horizontally. Target encroaches vertically from bottom, violating the right-of-way.
+        </p>
+      </div>
+
+    </aside>
+
+    <!-- ═══ CENTER VIEWPORT ═══ -->
+    <main class="viewport-area">
+      <div class="status-bar">
+        <span id="status-time">T=0.0s</span>
+        <span class="status-sep">|</span>
+        <span id="status-ttc">TTC=—</span>
+        <span class="status-sep">|</span>
+        <span id="status-label" class="status-chip nominal">[READY]</span>
+      </div>
+      <canvas id="sim-canvas"></canvas>
+    </main>
+
+    <!-- ═══ RIGHT PANEL ═══ -->
+    <aside class="panel-right">
+
+      <div class="panel-section">
+        <div class="panel-title-sm">⬛ LIVE AGENT TELEMETRY</div>
+      </div>
+
+      <div class="telemetry-grid">
+
+        <div class="tele-col">
+          <div class="tele-header ego-header">
+            <span class="dot ego-dot sm"></span> EGO AGENT
+          </div>
+          <div class="tele-field">
+            <div class="tele-label">VELOCITY</div>
+            <div class="tele-val"><span id="tele-ego-v">0.00</span><span class="unit"> m/s</span></div>
+          </div>
+          <div class="tele-field">
+            <div class="tele-label">POSITION X</div>
+            <div class="tele-val"><span id="tele-ego-x">—</span><span class="unit"> m</span></div>
+          </div>
+          <div class="tele-field">
+            <div class="tele-label">POSITION Y</div>
+            <div class="tele-val"><span id="tele-ego-y">—</span><span class="unit"> m</span></div>
+          </div>
+          <div class="tele-field">
+            <div class="tele-label">ACCEL</div>
+            <div class="tele-val"><span id="tele-ego-a">0.00</span><span class="unit"> m/s²</span></div>
+          </div>
+        </div>
+
+        <div class="tele-col">
+          <div class="tele-header tgt-header">
+            <span class="dot target-dot sm"></span> TARGET VEHICLE
+          </div>
+          <div class="tele-field">
+            <div class="tele-label">VELOCITY</div>
+            <div class="tele-val"><span id="tele-tgt-v">0.00</span><span class="unit"> m/s</span></div>
+          </div>
+          <div class="tele-field">
+            <div class="tele-label">POSITION X</div>
+            <div class="tele-val"><span id="tele-tgt-x">—</span><span class="unit"> m</span></div>
+          </div>
+          <div class="tele-field">
+            <div class="tele-label">POSITION Y</div>
+            <div class="tele-val"><span id="tele-tgt-y">—</span><span class="unit"> m</span></div>
+          </div>
+          <div class="tele-field">
+            <div class="tele-label">ACCEL</div>
+            <div class="tele-val"><span id="tele-tgt-a">0.00</span><span class="unit"> m/s²</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-title-sm">⬟ SURROGATE SAFETY MEASURES (SSM)</div>
+        <div class="ssm-grid">
+          <div class="ssm-card">
+            <div class="ssm-label">CURRENT TTC</div>
+            <div id="ssm-cur-ttc" class="ssm-val">—</div>
+          </div>
+          <div class="ssm-card">
+            <div class="ssm-label">GLOBAL MIN TTC</div>
+            <div id="ssm-min-ttc" class="ssm-val accent">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="conflict-bar nominal" id="conflict-bar">
+        <span class="conflict-bar-label">CONFLICT STATUS</span>
+        <span id="conflict-status-txt" class="conflict-txt">● NOMINAL</span>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card">
+          <div class="detail-label">POST-ENCROACH PET</div>
+          <div id="det-pet" class="detail-val">—</div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-label">INITIAL BRAKING DR</div>
+          <div id="det-brake" class="detail-val">—</div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-label">MAX SPEED</div>
+          <div id="det-maxspeed" class="detail-val">—</div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-label">ΔV (DELTA-V)</div>
+          <div id="det-deltav" class="detail-val">—</div>
+        </div>
+      </div>
+
+      <div class="compliance-report" id="compliance-report" style="display:none">
+        <div class="report-header">▪ FINAL COMPLIANCE REPORT</div>
+        <div id="report-text" class="report-body"></div>
+      </div>
+
+    </aside>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

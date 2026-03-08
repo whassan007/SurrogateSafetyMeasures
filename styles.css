@@ -1,0 +1,504 @@
+/* ═══════════════════════════════════════════════════════════
+   SSAM — Surrogate Safety Assessment Module
+   styles.css
+═══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:          #070d1a;
+  --bg-panel:    #0b1525;
+  --bg-card:     #0e1b2e;
+  --bg-card2:    #0c1828;
+  --border:      #1a2d48;
+  --border-dim:  #131f33;
+  --text:        #c8d8ea;
+  --text-sec:    #5a7a9a;
+  --text-dim:    #2e4460;
+  --accent:      #00b4f5;
+  --ego-color:   #00d4ff;
+  --tgt-color:   #cc2020;
+  --safe-color:  #1de07a;
+  --warn-color:  #f5a623;
+  --danger-color:#ff3b3b;
+  --header-h:    46px;
+  --left-w:      215px;
+  --right-w:     420px;
+  --font:        'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+}
+
+/* ── HEADER ────────────────────────────────────────────── */
+
+.app-header {
+  height: var(--header-h);
+  background: #060c18;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.header-shield {
+  font-size: 22px;
+  color: var(--accent);
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.header-title h1 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
+
+.header-sub {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--text-sec);
+  display: block;
+  margin-top: 2px;
+}
+
+/* ── APP BODY ───────────────────────────────────────────── */
+
+.app-body {
+  display: flex;
+  height: calc(100vh - var(--header-h));
+  overflow: hidden;
+}
+
+/* ── LEFT PANEL ─────────────────────────────────────────── */
+
+.panel-left {
+  width: var(--left-w);
+  flex-shrink: 0;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.panel-left::-webkit-scrollbar { width: 3px; }
+.panel-left::-webkit-scrollbar-thumb { background: var(--border); }
+
+.panel-top-label {
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.3px;
+}
+
+.panel-subtitle {
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+.panel-section {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.subsection-title {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.field-label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--text-sec);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.select-input {
+  width: 100%;
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 5px 8px;
+  font-family: var(--font);
+  font-size: 11px;
+  cursor: pointer;
+  outline: none;
+}
+
+.select-input:focus { border-color: var(--accent); }
+
+.slider-group {
+  margin-bottom: 10px;
+}
+
+.slider-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--text-sec);
+  margin-bottom: 4px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ego-dot  { background: var(--ego-color); box-shadow: 0 0 6px var(--ego-color); }
+.target-dot { background: var(--tgt-color); box-shadow: 0 0 6px var(--tgt-color); }
+.dot.sm { width: 6px; height: 6px; }
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+input[type=range] {
+  flex: 1;
+  accent-color: var(--accent);
+  height: 3px;
+  cursor: pointer;
+}
+
+.slider-value {
+  min-width: 36px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 5px;
+}
+
+/* Controls */
+.controls-section {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-play {
+  flex: 1;
+  padding: 8px 0;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-play:hover { opacity: 0.85; }
+
+.btn-stop {
+  flex: 0 0 72px;
+  padding: 8px 0;
+  background: transparent;
+  color: var(--text-sec);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.btn-stop:hover { color: var(--danger-color); border-color: var(--danger-color); }
+
+/* Scenario info */
+.scenario-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.tag {
+  font-size: 9px;
+  padding: 2px 7px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-sec);
+  letter-spacing: 0.3px;
+}
+
+.scenario-desc {
+  font-size: 10px;
+  color: var(--text-sec);
+  line-height: 1.5;
+}
+
+/* ── VIEWPORT ───────────────────────────────────────────── */
+
+.viewport-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #080f1c;
+  overflow: hidden;
+  position: relative;
+}
+
+.status-bar {
+  height: 32px;
+  background: rgba(7, 13, 26, 0.9);
+  border-bottom: 1px solid var(--border-dim);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--text-sec);
+  flex-shrink: 0;
+}
+
+.status-sep { color: var(--border); }
+
+.status-chip {
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+.status-chip.nominal { color: var(--text-sec); border: 1px solid var(--border); }
+.status-chip.warning { color: var(--warn-color); border: 1px solid var(--warn-color); }
+.status-chip.conflict { color: var(--danger-color); border: 1px solid var(--danger-color); background: rgba(255,59,59,0.08); }
+
+#sim-canvas {
+  display: block;
+  flex: 1;
+  width: 100%;
+}
+
+/* ── RIGHT PANEL ────────────────────────────────────────── */
+
+.panel-right {
+  width: var(--right-w);
+  flex-shrink: 0;
+  background: var(--bg-panel);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-right::-webkit-scrollbar { width: 3px; }
+.panel-right::-webkit-scrollbar-thumb { background: var(--border); }
+
+.panel-title-sm {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+/* Telemetry columns */
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.tele-col {
+  padding: 0 0 8px;
+  border-right: 1px solid var(--border-dim);
+}
+.tele-col:last-child { border-right: none; }
+
+.tele-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border-bottom: 1px solid var(--border-dim);
+  margin-bottom: 6px;
+}
+
+.ego-header  { color: var(--ego-color); }
+.tgt-header  { color: var(--tgt-color); }
+
+.tele-field {
+  padding: 4px 12px;
+}
+
+.tele-label {
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 1px;
+}
+
+.tele-val {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.unit {
+  font-size: 10px;
+  color: var(--text-sec);
+  font-weight: 400;
+}
+
+/* SSM section */
+.ssm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 8px 14px;
+}
+
+.ssm-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+.ssm-label {
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.ssm-val {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+.ssm-val.accent { color: var(--accent); }
+
+/* Conflict bar */
+.conflict-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  margin: 0 14px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.conflict-bar.active {
+  border-color: var(--danger-color);
+  background: rgba(255, 59, 59, 0.1);
+}
+
+.conflict-bar-label {
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.conflict-txt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.conflict-txt.nominal { color: var(--text-sec); }
+.conflict-txt.conflict-active { color: var(--danger-color); }
+
+/* Detail grid */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 0 14px 10px;
+}
+
+.detail-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+.detail-label {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.detail-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Compliance report */
+.compliance-report {
+  margin: 0 14px 14px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.report-header {
+  background: var(--bg-card);
+  padding: 7px 12px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+
+.report-body {
+  padding: 10px 12px;
+  font-size: 10px;
+  line-height: 1.6;
+  background: var(--bg-card2);
+  color: var(--danger-color);
+}
+
+.report-body.nominal-report { color: var(--safe-color); }
